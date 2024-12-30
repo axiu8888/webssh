@@ -48,7 +48,7 @@ export default {
             this.resizeTerm(termWeb)
             const sshReq = this.$store.getters.sshReq
             this.close()
-            const prefix = process.env.NODE_ENV === 'production' ? '' : '/ws'
+            const prefix = process.env.NODE_ENV === 'production' ? '/webssh' : '/webssh/ws'
             const fitAddon = new FitAddon()
             this.term = new Terminal()
             this.term.loadAddon(fitAddon)

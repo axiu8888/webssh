@@ -1,1 +1,9 @@
-docker run -d -p 5032:5032 --log-driver json-file --log-opt max-file=1 --log-opt max-size=100m --restart always --name webssh -e TZ=Asia/Shanghai jrohy/webssh
+docker run -d --restart always \
+ -p 5032:22 \
+ --log-driver json-file \
+ --log-opt max-file=1 \
+ --log-opt max-size=100m \
+ -e TZ=Asia/Shanghai \
+ -e port=22 \
+ --name webssh \
+ jrohy/webssh

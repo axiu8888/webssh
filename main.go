@@ -20,6 +20,7 @@ import (
 var f embed.FS
 
 var (
+	baseUrl    = flag.String("baseUrl", "/webssh", "HTTP请求前缀，默认 /webssh")
 	port       = flag.Int("p", 5032, "服务运行端口")
 	v          = flag.Bool("v", false, "显示版本号")
 	authInfo   = flag.String("a", "", "开启账号密码登录验证, '-a user:pass'的格式传参")
@@ -72,19 +73,19 @@ func staticRouter(router *gin.Engine) {
 		accountList := map[string]string{
 			username: password,
 		}
-		authorized := router.Group("/", gin.BasicAuth(accountList))
+		authorized := router.Group(*baseUrl+"/", gin.BasicAuth(accountList))
 		authorized.GET("", func(c *gin.Context) {
 			indexHTML, _ := f.ReadFile("web/dist/" + "index.html")
 			c.Writer.Write(indexHTML)
 		})
 	} else {
-		router.GET("/", func(c *gin.Context) {
+		router.GET(*baseUrl+"/", func(c *gin.Context) {
 			indexHTML, _ := f.ReadFile("web/dist/" + "index.html")
 			c.Writer.Write(indexHTML)
 		})
 	}
 	staticFs, _ := fs.Sub(f, "web/dist/static")
-	router.StaticFS("/static", http.FS(staticFs))
+	router.StaticFS(*baseUrl+"/static", http.FS(staticFs))
 }
 
 func main() {
@@ -92,17 +93,17 @@ func main() {
 	server.SetTrustedProxies(nil)
 	server.Use(gzip.Gzip(gzip.DefaultCompression))
 	staticRouter(server)
-	server.GET("/term", func(c *gin.Context) {
+	server.GET(*baseUrl+"/term", func(c *gin.Context) {
 		controller.TermWs(c, time.Duration(timeout)*time.Minute)
 	})
-	server.GET("/check", func(c *gin.Context) {
+	server.GET(*baseUrl+"/check", func(c *gin.Context) {
 		responseBody := controller.CheckSSH(c)
 		responseBody.Data = map[string]interface{}{
 			"savePass": savePass,
 		}
 		c.JSON(200, responseBody)
 	})
-	file := server.Group("/file")
+	file := server.Group(*baseUrl + "/file")
 	{
 		file.GET("/list", func(c *gin.Context) {
 			c.JSON(200, controller.FileList(c))
