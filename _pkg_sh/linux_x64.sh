@@ -6,7 +6,7 @@ echo "go curDir -> $PWD"
 cd ../
 
 #CGO_ENABLED=0
-GOOS=Windows
+GOOS=linux
 GOARCH=amd64
 
-go build -o webssh_amd64.exe ./main.go
+go build -o webssh_x64 ./main.go
