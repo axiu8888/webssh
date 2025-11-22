@@ -2,5 +2,6 @@
 .idea
 node_modules
 dist
-webssh.exe
-webssh_*
+
+**/**/webssh.exe
+**/**/webssh_*

@@ -6,7 +6,7 @@ dir=$PWD
 name=webssh
 echo "启动 $name"
 docker run -d --restart=always \
-  --network znsxnet --network-alias hsrg-$name \
+  --network znsxnet --network-alias my-$name \
   --log-driver json-file \
   --log-opt max-file=2 \
   --log-opt max-size=100m \

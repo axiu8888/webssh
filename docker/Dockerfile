@@ -4,7 +4,7 @@ FROM ubuntu
 #作者
 MAINTAINER dingxiuan <dingxiuan@163.com>
 # 版本
-LABEL version=1.0  description=hsrg-ubuntu
+LABEL version=1.0  description=web-ubuntu
 
 #ADD sources.list /etc/apt/
 

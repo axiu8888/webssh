@@ -31,11 +31,19 @@ Usage of ./webssh_linux_amd64:
 ```
 
 ## 运行
-1. 下载[releases](https://github.com/Jrohy/webssh/releases)里不同平台的包来执行即可  
 
-2. docker运行:  
+1. 打包：
     ```
-    docker run -d --net=host --log-driver json-file --log-opt max-file=1 --log-opt max-size=100m --restart always --name webssh -e TZ=Asia/Shanghai jrohy/webssh
+    cd _pkg_sn/ && bash _pkg_all_.sh
+    ```
+
+2. docker镜像打包，首先将步骤1打包的可执行文件拷贝到docker目录下:
+    ```
+    docker build -f Dockerfile --rm  --tag webssh:v1 .
+    ```
+3. 创建容器：
+    ```
+    bash init.sh
     ```
     支持添加的环境变量:
     ```
